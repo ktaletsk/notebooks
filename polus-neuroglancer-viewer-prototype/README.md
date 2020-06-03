@@ -1,11 +1,21 @@
 # Polus Neuroglancer Viewer Prototype
 
-This repository consists of the `Neuroglancer.ipynb` notebook which serves as an interface between the WIPP-CI deployment of `polus-volume`
-and the WIPP CI backend. Polus Volume leverages the Google Neuroglancer project for 2D and 3D visualization of image data in the web browser.
+This repository consists of the `Neuroglancer.ipynb` notebook which serves as an interface between `polus-volume`
+and the WIPP backend. Polus Volume leverages the Google Neuroglancer project for 2D and 3D visualization of image data in the web browser.
 
+Contact [Nick Schaub](mailto:nick.schaub@nih.gov)  or [Gauhar Bains](mailto:gauhar.bains@labshare.org) for more information.
+ 
 For more information about Neuroglancer : https://github.com/google/neuroglancer  
   
 For more information about Polus-volume : https://github.com/LabShare/polus-volume
+
+## Setup 
+To use this notebook for a particular deployment of WIPP, make the following changes:
+
+1. In cell 1, under `class WippData` set the value of the variable `api_route`.
+2. In cell 2, at the beginning, set the value of the variable `WIPP_API_URL`. This url should be a general link pointing to the info file of an image in a pyramid collection. Example : `https://wipp-api-Link/pyramid-files/{}/{}`. The two braces at the end of the url are important. The first brace is for the name of the pyramid collection and the second is for the name of the image within that collection.
+3. Just below `WIPP_API_URL` (stated in step 2), set the value of the variable `NEUROGLANCER_URL`. This should be a link to your local neuroglancer deployment. 
+
 
 ## Description
 
