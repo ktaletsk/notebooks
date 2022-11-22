@@ -12,10 +12,6 @@ from tensorflow.keras import Model, layers
 from tensorflow.keras.datasets import mnist
 import io
 
-# Parameters that need to change:
-# training_steps -> for step, (batch_x, batch_y) in enumerate(train_data.take(training_steps), 1): ->
-# display_step -> if step % display_step == 0:
-
 
 # Below is markdown for Streamlit.
 st.title('Neural Network Example')
