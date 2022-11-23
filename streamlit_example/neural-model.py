@@ -68,11 +68,6 @@ Default training parameters:
     """
 )
 
-
-def apply_initial_params():
-    pass
-
-
 with st.form("initial_params"):
     st.markdown("**Change default parameters**")
     training_steps = st.number_input(
@@ -86,8 +81,8 @@ with st.form("initial_params"):
 
     # Every form must have a submit button.
     submitted = st.form_submit_button("Apply")
-    if submitted:
-        apply_initial_params()
+    if not submitted:
+        st.stop()
 
 
 # st.write('changed: ', training_steps)
