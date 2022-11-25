@@ -195,7 +195,7 @@ def run_optimization(x, y):
 st.markdown(
     """
 
-    **_The results below are for training that was ran for the given number of steps that were written in Python script._**
+    **_The results below are for the training that was ran for the given number of steps._**
 
     """, unsafe_allow_html=True)
 
@@ -252,15 +252,6 @@ plt.show()
 # Predict and provide 5 random images from data set.
 n_images = 5
 
-st.markdown(
-    """
-    _Below you can see the prediction of 5 images from validation set._
-
-    If you want to reshuffle images, click the button below. 
-
-    """
-)
-
 
 def shuffle_images():
     st.session_state.test_images = []
@@ -269,9 +260,6 @@ def shuffle_images():
         st.session_state.test_images.append(x_test[rand_index])
     st.session_state.test_images = np.array(st.session_state.test_images)
 
-
-if (not st.button("Reshuffle images", on_click=shuffle_images)) and (not hasattr(st.session_state, 'test_images')):
-    shuffle_images()
 
 predictions = neural_net(st.session_state.test_images)
 
@@ -291,3 +279,16 @@ for i in range(n_images):
     st.image(img_buf, width=200)
     img_buf.close()
     write("Model prediction: %i" % np.argmax(predictions.numpy()[i]))
+
+
+st.markdown(
+    """
+   
+   ***If you want to reshuffle images, click the button below.***
+
+    """
+)
+
+# Button Widget in Streamlit
+if (not st.button("Shuffle Images", on_click=shuffle_images)) and (not hasattr(st.session_state, 'test_images')):
+    shuffle_images()
