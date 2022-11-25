@@ -1,6 +1,7 @@
 # For Streamlit:
 
 from __future__ import absolute_import, division, print_function
+import random
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -30,7 +31,7 @@ st.markdown(
 
     You can find example used in Jupyter Notebooks here:
     https://github.com/aymericdamien/TensorFlow-Examples/blob/master/tensorflow_v2/notebooks/3_NeuralNetworks/neural_network.ipynb
-    
+
     This example is using MNIST handwritten digits (picture below). The dataset contains 60,000 examples for training and 10,000 examples for testing. The digits have been size-normalized and centered in a fixed-size image (28x28 pixels) with values from 0 to 255.
 
     In this example, each image will be converted to float32, normalized to [0, 1] and flattened to a 1-D array of 784 features (28*28).
@@ -64,7 +65,7 @@ Default training parameters:
 
 **Batch Size** = 256
 
-**Display Step** = 100  
+**Display Step** = 100
     """
 )
 
@@ -117,9 +118,9 @@ x_train, x_test = x_train / 255., x_test / 255.
 # Use tf.data API to shuffle and batch data.
 train_data = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 train_data = train_data.repeat().shuffle(5000).batch(batch_size).prefetch(1)
+
+
 # Create TF Model.
-
-
 class NeuralNet(Model):
     # Set layers.
     def __init__(self):
@@ -190,10 +191,10 @@ def run_optimization(x, y):
     optimizer.apply_gradients(zip(gradients, trainable_variables))
 
 
-# Run training for the given number of steps. Also, below is markdown for Streamlit.
+# Run training for the given number of steps.
 st.markdown(
     """
-     
+
     **_The results below are for training that was ran for the given number of steps that were written in Python script._**
 
     """, unsafe_allow_html=True)
@@ -241,29 +242,49 @@ st.markdown(
     Test model on validation set.
 
     **_Test Accuracy:_**
-    
+
     """, unsafe_allow_html=True)
 
 write("Test Accuracy: %f" % accuracy(pred, y_test))
 plt.show()
 # Visualize predictions.
 
-# Predict 5 images from validation set.
+# Predict and provide 5 random images from data set.
 n_images = 5
-test_images = x_test[:n_images]
-predictions = neural_net(test_images)
+
+st.markdown(
+    """
+    _Below you can see the prediction of 5 images from validation set._
+
+    If you want to reshuffle images, click the button below. 
+
+    """
+)
+
+
+def shuffle_images():
+    st.session_state.test_images = []
+    for i in range(n_images):
+        rand_index = random.randint(0, len(x_test)-1)
+        st.session_state.test_images.append(x_test[rand_index])
+    st.session_state.test_images = np.array(st.session_state.test_images)
+
+
+if (not st.button("Reshuffle images", on_click=shuffle_images)) and (not hasattr(st.session_state, 'test_images')):
+    shuffle_images()
+
+predictions = neural_net(st.session_state.test_images)
 
 # Below is markdown for Streamlit.
 st.markdown(
     """
-    Predict 5 images from validation set.
-
-    **_Model and image predictions are displayed below._**
+       **_Model and image predictions are displayed below._**
     """, unsafe_allow_html=True)
 
 # Display image and model prediction.
 for i in range(n_images):
-    plt.imshow(np.reshape(test_images[i], [28, 28]), cmap='gray')
+    plt.imshow(np.reshape(
+        st.session_state.test_images[i], [28, 28]), cmap='gray')
     # plt.show()
     img_buf = io.BytesIO()
     plt.savefig(img_buf, format='png')
