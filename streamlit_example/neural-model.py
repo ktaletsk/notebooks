@@ -8,7 +8,6 @@ import pandas as pd
 import streamlit as st
 import tensorflow as tf
 from PIL import Image
-from streamlit import table, write
 from tensorflow import keras
 from keras import Model, layers
 from keras.datasets import mnist
@@ -20,9 +19,7 @@ st.title('Neural Network Example')
 
 st.subheader('Neural Network Example Using Streamlit Framework')
 
-image = Image.open('pict/neural_network_overview.jfif')
-
-st.image(image, caption='', width=400)
+st.image(Image.open('pict/neural_network_overview.jfif'), caption='', width=400)
 
 st.markdown(
     """
@@ -39,10 +36,7 @@ st.markdown(
 
     """, unsafe_allow_html=True)
 
-
-image = Image.open('pict/mnist_dataset_overview.png')
-
-st.image(image, caption='')
+st.image(Image.open('pict/mnist_dataset_overview.png'), caption='')
 
 # MNIST dataset parameters.
 num_classes = 10  # total classes (0-9 digits).
@@ -86,8 +80,6 @@ with st.form("initial_params"):
     if not submitted:
         st.stop()
 
-
-# st.write('changed: ', training_steps)
 
 # Below is markdown for Streamlit.
 st.markdown(
@@ -212,10 +204,14 @@ for step, (batch_x, batch_y) in enumerate(train_data.take(training_steps), 1):
         pred = neural_net(batch_x, is_training=True)
         loss = cross_entropy_loss(pred, batch_y)
         acc = accuracy(pred, batch_y)
-        # write("step: %i, loss: %f, accuracy: %f" % (step, loss, acc))
+
         step_list.append(step)
         loss_list.append(loss)
         acc_list.append(acc)
+
+df = pd.DataFrame(
+    data={"Step": step_list, "Loss": loss_list, "Accuracy": acc_list}
+)
 
 # CSS to inject contained in a string to hide index (first column) in Streamlit app.
 hide_table_row_index = """
@@ -228,11 +224,7 @@ hide_table_row_index = """
 # Inject CSS with Markdown (in Streamlit)
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
-df = pd.DataFrame(
-    data={"Step": step_list, "Loss": loss_list, "Accuracy": acc_list}
-)
-
-table(df)
+st.table(df)
 
 # Test model on validation set.
 pred = neural_net(x_test, is_training=False)
@@ -246,10 +238,9 @@ st.markdown(
 
     """, unsafe_allow_html=True)
 
-write("Test Accuracy: %f" % accuracy(pred, y_test))
-plt.show()
-# Visualize predictions.
+st.write("Test Accuracy: %f" % accuracy(pred, y_test))
 
+# Visualize predictions.
 # Predict and provide 5 random images from data set.
 n_images = 5
 
@@ -265,10 +256,6 @@ def shuffle_images():
 if (not hasattr(st.session_state, 'test_images')):
     shuffle_images()
 
-# Button Widget in Streamlit
-# if (not st.button("Shuffle Images", on_click=shuffle_images)) and (not hasattr(st.session_state, 'test_images')):
-#     shuffle_images()
-
 predictions = neural_net(st.session_state.test_images)
 
 # Below is markdown for Streamlit.
@@ -281,12 +268,12 @@ st.markdown(
 for i in range(n_images):
     plt.imshow(np.reshape(
         st.session_state.test_images[i], [28, 28]), cmap='gray')
-    # plt.show()
-    img_buf = io.BytesIO()
-    plt.savefig(img_buf, format='png')
-    st.image(img_buf, width=200)
-    img_buf.close()
-    write("Model prediction: %i" % np.argmax(predictions.numpy()[i]))
+
+    with io.BytesIO() as img_buf:
+        plt.savefig(img_buf, format='png')
+        st.image(img_buf, width=200)
+
+    st.write("Model prediction: %i" % np.argmax(predictions.numpy()[i]))
 
 
 st.markdown(
@@ -297,4 +284,5 @@ st.markdown(
     """
 )
 
+# Button Widget in Streamlit
 st.button("Shuffle Images", on_click=shuffle_images)
