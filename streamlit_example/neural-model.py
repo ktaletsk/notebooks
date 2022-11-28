@@ -262,6 +262,13 @@ def shuffle_images():
     st.session_state.test_images = np.array(st.session_state.test_images)
 
 
+if (not hasattr(st.session_state, 'test_images')):
+    shuffle_images()
+
+# Button Widget in Streamlit
+# if (not st.button("Shuffle Images", on_click=shuffle_images)) and (not hasattr(st.session_state, 'test_images')):
+#     shuffle_images()
+
 predictions = neural_net(st.session_state.test_images)
 
 # Below is markdown for Streamlit.
@@ -290,6 +297,4 @@ st.markdown(
     """
 )
 
-# Button Widget in Streamlit
-if (not st.button("Shuffle Images", on_click=shuffle_images)) and (not hasattr(st.session_state, 'test_images')):
-    shuffle_images()
+st.button("Shuffle Images", on_click=shuffle_images)
