@@ -9,8 +9,9 @@ import streamlit as st
 import tensorflow as tf
 from PIL import Image
 from streamlit import table, write
-from tensorflow.keras import Model, layers
-from tensorflow.keras.datasets import mnist
+from tensorflow import keras
+from keras import Model, layers
+from keras.datasets import mnist
 import io
 
 
