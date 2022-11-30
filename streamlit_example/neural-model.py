@@ -114,6 +114,7 @@ train_data = train_data.repeat().shuffle(5000).batch(batch_size).prefetch(1)
 
 
 # Create TF Model.
+# NeuralNet class is based on Keras Model class
 class NeuralNet(Model):
     # Set layers.
     def __init__(self):
@@ -192,22 +193,30 @@ st.markdown(
 
     """, unsafe_allow_html=True)
 
-step_list = []
-loss_list = []
-acc_list = []
 
-for step, (batch_x, batch_y) in enumerate(train_data.take(training_steps), 1):
-    # Run the optimization to update W and b values.
-    run_optimization(batch_x, batch_y)
+@st.experimental_singleton
+def train_model(training_steps, display_step, learning_rate, batch_size):
+    step_list = []
+    loss_list = []
+    acc_list = []
 
-    if step % display_step == 0:
-        pred = neural_net(batch_x, is_training=True)
-        loss = cross_entropy_loss(pred, batch_y)
-        acc = accuracy(pred, batch_y)
+    for step, (batch_x, batch_y) in enumerate(train_data.take(training_steps), 1):
+        # Run the optimization to update W and b values.
+        run_optimization(batch_x, batch_y)
 
-        step_list.append(step)
-        loss_list.append(loss)
-        acc_list.append(acc)
+        if step % display_step == 0:
+            pred = neural_net(batch_x, is_training=True)
+            loss = cross_entropy_loss(pred, batch_y)
+            acc = accuracy(pred, batch_y)
+
+            step_list.append(step)
+            loss_list.append(loss)
+            acc_list.append(acc)
+    return step_list, loss_list, acc_list, neural_net
+
+
+step_list, loss_list, acc_list, neural_net = train_model(
+    training_steps, display_step, learning_rate, batch_size)
 
 df = pd.DataFrame(
     data={"Step": step_list, "Loss": loss_list, "Accuracy": acc_list}
