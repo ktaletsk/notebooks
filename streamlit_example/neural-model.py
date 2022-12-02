@@ -64,6 +64,10 @@ Default training parameters:
     """
 )
 
+# Initialize shuffle_button_state
+st.session_state.shuffle_button_state = st.session_state.shuffle_button_state if hasattr(
+    st.session_state, 'shuffle_button_state') else False
+
 with st.form("initial_params"):
     st.markdown("**Change default parameters**")
     training_steps = st.number_input(
@@ -76,9 +80,9 @@ with st.form("initial_params"):
         label="batch size: ", value=batch_size)
 
     # Every form must have a submit button.
-    submitted = st.form_submit_button("Apply")
-    if not submitted:
-        st.stop()
+    if not st.form_submit_button("Apply"):
+        if not st.session_state.shuffle_button_state:
+            st.stop()
 
 
 # Below is markdown for Streamlit.
@@ -255,6 +259,7 @@ n_images = 5
 
 
 def shuffle_images():
+    st.session_state.shuffle_button_state = True
     st.session_state.test_images = []
     for i in range(n_images):
         rand_index = random.randint(0, len(x_test)-1)
