@@ -1,5 +1,8 @@
 # BioGPT Voila Dashboard
 
+![BioGPT_Dashboard](https://user-images.githubusercontent.com/8834829/217871573-14aaa1c6-cad7-4056-8935-596b2013fa1c.gif)
+
+
 ## Prerequsites
 - Use Python Data Science environment, starting with 0.1.7. It includes fastbpe, tensorboardx, sacremoses, fairseq
 - Download the checkpoints
