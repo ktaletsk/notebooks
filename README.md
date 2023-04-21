@@ -6,14 +6,18 @@ This repository contains examples that run in Notebooks Hub. The examples are or
 
 Tutorials demonstrate the capabilities of different libraries (i.e. GPU libraries) and application types (i.e. Voila, Streamlit, R Shiny, etc.) through toy examples. The tutorials are organized into the following subdirectories:
 
-| Collection      | Description                                                                                        |
-| --------------- | -------------------------------------------------------------------------------------------------- |
-| `dataviz`       | Data visualization examples                                                                        |
-| `GPU Libraries` | Examples demonstrating the use of GPU libraries (CuPy, FastAI, JAX, Numba, Pytorch and Tensorflow) |
-| `polyglot`      | Examples demonstrating polyglot capabilities of Polus Notebook                                     |
-| `shiny`         | R Shiny examples                                                                                   |
-| `streamlit`     | Streamlit examples                                                                                 |
-
+| Collection   | Description                                                    |
+| ------------ | -------------------------------------------------------------- |
+| `CuPy`       | CuPy example notebooks                                         |
+| `dataviz`    | Data visualization examples                                    |
+| `FastAI`     | FastAI example notebooks                                       |
+| `JAX`        | JAX example notebooks                                          |
+| `Numba`      | Numba example notebooks                                        |
+| `Pytorch`    | Pytorch example notebooks                                      |
+| `Tensorflow` | Tensorflow example notebooks                                   |
+| `polyglot`   | Examples demonstrating polyglot capabilities of Polus Notebook |
+| `shiny`      | R Shiny examples                                               |
+| `streamlit`  | Streamlit examples                                             |
 
 ## Prototypes
 
