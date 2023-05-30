@@ -12,17 +12,17 @@ img_path2 = '/Users/aditipatel/Desktop/examples/prototypes/streamlit-comp/data/c
 img1 = tifffile.imread(img_path1)
 img2 = tifffile.imread(img_path2)
 
+values = st.slider('Dynamic range', 0, 65535, (0, 800), step=100)
+
 #normalize the image data
-img1 = (img1 - np.min(img1)) / (np.max(img1) - np.min(img1)) * 255
-img2 = (img2 - np.min(img2)) / (np.max(img2) - np.min(img2)) * 255
+img1 = (img1 - values[0]) / (values[1] - values[0]) * 255
+img2 = (img2 - values[0]) / (values[1] - values[0]) * 255
 
 #convert the image data to uint8
 img1 = img1.astype(np.uint8)
 img2 = img2.astype(np.uint8)
 
-# Display the images using Streamlit
-st.image([img1, img2], caption=['Image 1', 'Image 2'])
-
+# Display the image comparison using Streamlit
 image_comparison(
 img1=img1,
 img2=img2,
