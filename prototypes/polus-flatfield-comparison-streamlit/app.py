@@ -58,6 +58,9 @@ elif selected == "App":
 
     #List of file names from the folder
     file_names = os.listdir(folder_path)
+    if ".DS_Store" in file_names:
+        file_names.remove(".DS_Store")
+
 
     with st.sidebar:
         st.subheader("Select an Image to Compare:")
@@ -65,8 +68,6 @@ elif selected == "App":
         selected_file = st.selectbox("Select a File", file_names, index=1, help=info)
         st.sidebar.markdown("Notice that the raw image quality is less than ideal. Due to uneven illumination and detection, some regions of the image, typically the center, are brighter, and others are dimmer.")
         st.sidebar.markdown("[Flat-Field Correction](https://calm.ucsf.edu/how-acquire-flat-field-correction-images) was applied to correct the image and cancel out effects of image artifacts or noise, resulting in a uniformly-illuminated image and an improvement in the overall quality of the image.")
-        st.sidebar.markdown("The Dynamic Range can also be adjusted to change the Brighness & Contrast and improve image quality.")
-        st.sidebar.markdown("Adjust the sliders to compare the raw and corrected images.")
 
     if selected_file:
 
@@ -74,8 +75,6 @@ elif selected == "App":
  
         st.subheader("Selected Image:  " + selected_file)
         
-        #Dyanmic Range Slider 
-        values = st.slider('Adjust Dynamic Range', 0, 65535, (0, 800), step=100)
 
         
         #Set the paths to OME-TIFF files
@@ -86,14 +85,6 @@ elif selected == "App":
         img1 = tifffile.imread(img_path1)
         img2 = tifffile.imread(img_path2)
 
-
-        #Normalize the image data
-        img1 = (img1 - values[0]) / (values[1] - values[0]) * 255
-        img2 = (img2 - values[0]) / (values[1] - values[0]) * 255
-
-        #Convert the image data to uint8
-        img1 = img1.astype(np.uint8)
-        img2 = img2.astype(np.uint8)
 
         #Display the image comparison using Streamlit Image Comparison Component 
         image_comparison(
