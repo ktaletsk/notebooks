@@ -1,7 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit_image_comparison import image_comparison
-from PIL import Image
 import numpy as np
 import tifffile
 import os
