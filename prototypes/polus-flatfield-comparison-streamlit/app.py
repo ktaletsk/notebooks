@@ -9,7 +9,7 @@ import os
 dashboard_location = os.path.dirname(__file__)
 
 #Title 
-st.title("Polus Flatfield Comparison App")
+st.title("Polus Flat-Field Comparison App")
 
 
 #App Menu
@@ -23,11 +23,11 @@ if selected == "About":
     #Set page title
     st.header("About the App")
     text = """
-    The image dataset used in this project includes a collection of images provided by Axle's Polus AI team. To correct these images, the Polus AI WIPP plugins for Flat-Field Corrections were used, including the estimation and apply plugins. The raw images were processed, resulting in corrected images that were stored in a designated output folder to be used in this app.
+    The image dataset used in this project includes a collection of images provided by Axle's Polus AI team. To correct these images, the Polus AI Plugins for Flat-field Corrections were used, including the estimation and apply plugins. The raw images were processed, resulting in corrected images that were stored in a designated output folder to be used in this app.
 
-    The Polus Flatfield Comparison App was developed to showcase the effectiveness of the correction process on the images. This app utilizes the Streamlit Image Comparison component from the streamlit_image_comparison library. It enables side-by-side comparison and visualization of two images, allowing users to easily observe differences and analyze the impact of the correction.
+    The Polus Flat-Field Comparison App was developed to showcase the effectiveness of the correction process on the images. This app utilizes the Streamlit Image Comparison component from the `streamlit-image-comparison` library. It enables side-by-side comparison and visualization of two images, allowing users to easily observe differences and analyze the impact of the correction.
 
-    By showcasing the correction performed by the Polus AI WIPP plugins with the Streamlit Image Comparison component, this project provides a tool for evaluating and understanding the effects of flat field correction on the image dataset.
+    By showcasing the correction performed by the Polus AI Plugins with the Streamlit Image Comparison component, this project provides a tool for evaluating and understanding the effects of flat-field correction on the image dataset.
        """
     st.markdown(text)
 
@@ -52,7 +52,7 @@ if selected == "About":
 elif selected == "App":
 
     #Info text for select input
-    info = "The corrected images were previously generated using the Polus AI Flat Field Correction plugins."
+    info = "The corrected images were previously generated using the Polus AI Flat-Field Correction plugins."
     
     #Path to the folder containing image files
     folder_path = dashboard_location + "/data/original/"
