@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit_image_comparison import image_comparison
 from PIL import Image
-import numpy as np
 import tifffile
 import os
 
@@ -13,7 +12,7 @@ st.title("Polus Flat-Field Comparison App")
 
 
 #App Menu
-selected = option_menu(None, ["App", "About"], 
+selected = option_menu(None, ["App", "About"],
     icons=[ 'app','info-square'],
     default_index=0, orientation="horizontal")
 
@@ -50,10 +49,9 @@ if selected == "About":
 
 #App Page 
 elif selected == "App":
-
     #Info text for select input
     info = "The corrected images were previously generated using the Polus AI Flat-Field Correction plugins."
-    
+
     #Path to the folder containing image files
     folder_path = dashboard_location + "/data/original/"
 
@@ -61,7 +59,6 @@ elif selected == "App":
     file_names = os.listdir(folder_path)
     if ".DS_Store" in file_names:
         file_names.remove(".DS_Store")
-
 
     with st.sidebar:
         st.subheader("Select an Image to Compare:")
@@ -71,13 +68,8 @@ elif selected == "App":
         st.sidebar.markdown("[Flat-Field Correction](https://calm.ucsf.edu/how-acquire-flat-field-correction-images) was applied to correct the image and cancel out effects of image artifacts or noise, resulting in a uniformly-illuminated image and an improvement in the overall quality of the image.")
 
     if selected_file:
-
-        #tifffile
- 
         st.subheader("Selected Image:  " + selected_file)
-        
 
-        
         #Set the paths to OME-TIFF files
         img_path1 = dashboard_location + "/data/original/" + selected_file
         img_path2 = dashboard_location + "/data/corrected/" + selected_file
@@ -89,10 +81,10 @@ elif selected == "App":
 
         #Display the image comparison using Streamlit Image Comparison Component 
         image_comparison(
-        img1=img1,
-        img2=img2,
-        label1="Raw",
-        label2="Corrected"
+            img1=img1,
+            img2=img2,
+            label1="Raw",
+            label2="Corrected"
         )
 
     else:
