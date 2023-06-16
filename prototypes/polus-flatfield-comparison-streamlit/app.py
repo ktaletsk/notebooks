@@ -6,6 +6,7 @@ import numpy as np
 import tifffile
 import os
 
+dashboard_location = os.path.dirname(__file__)
 
 #Title 
 st.title("Polus Flatfield Comparison App")
@@ -31,7 +32,7 @@ if selected == "About":
     st.markdown(text)
 
     #FCC Example Image
-    img_path = os.getcwd() + '/data/example-FFC.png'
+    img_path = dashboard_location + '/data/example-FFC.png'
     fcc_example = Image.open(img_path)
     st.image(fcc_example, use_column_width=True, caption="Flat-field correction was used to cancel out effects of image artifacts or noise, resulting in a uniformly-illuminated image and an improvement in the overall quality of the image.")
 
@@ -54,7 +55,7 @@ elif selected == "App":
     info = "The corrected images were previously generated using the Polus AI Flat Field Correction plugins."
     
     #Path to the folder containing image files
-    folder_path = os.getcwd() + "/data/original/"
+    folder_path = dashboard_location + "/data/original/"
 
     #List of file names from the folder
     file_names = os.listdir(folder_path)
@@ -78,8 +79,8 @@ elif selected == "App":
 
         
         #Set the paths to OME-TIFF files
-        img_path1 = os.getcwd() + "/data/original/" + selected_file
-        img_path2 = os.getcwd() + "/data/corrected/" + selected_file
+        img_path1 = dashboard_location + "/data/original/" + selected_file
+        img_path2 = dashboard_location + "/data/corrected/" + selected_file
 
         #Read OME-TIFF files using tifffile
         img1 = tifffile.imread(img_path1)
