@@ -4,6 +4,7 @@ from streamlit_image_comparison import image_comparison
 from PIL import Image
 import tifffile
 import os
+import glob
 
 dashboard_location = os.path.dirname(__file__)
 
@@ -56,9 +57,7 @@ elif selected == "App":
     folder_path = dashboard_location + "/data/original/"
 
     #List of file names from the folder
-    file_names = os.listdir(folder_path)
-    if ".DS_Store" in file_names:
-        file_names.remove(".DS_Store")
+    file_names = [os.path.basename(f) for f in glob.glob(f"{folder_path}/*.ome.tif")]
 
     with st.sidebar:
         st.subheader("Select an Image to Compare:")
