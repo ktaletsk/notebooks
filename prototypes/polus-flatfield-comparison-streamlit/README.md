@@ -1,4 +1,4 @@
-# Streamlit Image Comparison Dashboard
+# Polus Flat-Field Comparison Dashboard
 
 ## Dashboard Description
 This dashboard allows users to select a pair of images consisting of a raw and flat field corrected image. Images are displayed side by side using the Streamlit Image Comparison component so that they may be compared by adjusting a slider, overall enhancing the ability to visualize differences.
