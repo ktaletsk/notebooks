@@ -1,4 +1,5 @@
-#import libraries + packages 
+#import libraries + packages
+import os
 import streamlit as st
 from PIL import Image
 import pandas as pd
@@ -10,6 +11,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 
 
+dashboard_location = os.path.dirname(__file__)
+
 #main app heading - 'Stroke Predictor' 
 st.write("""
 # Stroke Predictor App
@@ -17,7 +20,7 @@ st.write("""
 
 
 #image displayed on main page 
-image = Image.open('stroke.jpg')
+image = Image.open(os.path.join(dashboard_location,'stroke.jpg'))
 st.image(image)
 
 
@@ -60,43 +63,42 @@ with st.form(key='my_form'):
         }
 
         inputs = pd.DataFrame(data, index=[0])
-        
+
         #displays the feature values from user input
         st.subheader('User Input parameters')
         st.write(inputs)
-        
+
         #### BUILD ML MODEL ####
         #read in dataset (data contains 5110 observations)
-        df = pd.read_csv('stroke-dataset.csv')
-        
+        df = pd.read_csv(os.path.join(dashboard_location,'stroke-dataset.csv'))
+
         #identify missing data 
         df.isnull().sum()
-    
+
         #impute missing values (interpolation method - mean/average of column) 
         df = df.dropna()
-    
-    
+
         #one-hot encoding for categorical features, create a new dummy feature for each unique value in the nominal feature column
         df = pd.get_dummies(df[['gender', 'age', 'hypertension','heart_disease', 'ever_married', 'work_type', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status', 'stroke']])
-    
+
         #split dataset into training and test datasets
         X = df.drop(['stroke'], axis = 1)
         y = df['stroke']
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.8, test_size=0.2, random_state=1)
-        
+
         #standardize data
         sc = StandardScaler()
         sc.fit(X_train)
         X_train_std = sc.transform(X_train)
         X_test_std = sc.transform(X_test)
-        
+
         #train random forest classifier and get accuracy (~94%)
         rf = RandomForestClassifier()
         rf.fit(X_train,y_train)
         y_pred_rf=rf.predict(X_test)
 
         accuracy = accuracy_score(y_test, y_pred_rf)
-        
+
         ########
 
         st.write('Classifier Accuracy: %.3f' % accuracy) 
@@ -120,7 +122,7 @@ with st.form(key='my_form'):
         work_type_cols = ['work_type_Govt_job',	'work_type_Never_worked', 'work_type_Private', 'work_type_Self-employed', 'work_type_children']
         Residence_type_cols = ['Residence_type_Rural', 'Residence_type_Urban']
         smoking_status_cols = ['smoking_status_Unknown', 'smoking_status_formerly smoked', 'smoking_status_never smoked', 'smoking_status_smokes']
-        
+
         cols_lists = [['gender_Female', 'gender_Male', 'gender_Other'],['ever_married_No', 'ever_married_Yes'], ['work_type_Govt_job',	'work_type_Never_worked', 'work_type_Private', 'work_type_Self-employed', 'work_type_children'], ['Residence_type_Rural', 'Residence_type_Urban'],['smoking_status_Unknown', 'smoking_status_formerly smoked', 'smoking_status_never smoked', 'smoking_status_smokes'] ]
         for cols in cols_lists:
             predict_inputs = predict_inputs.reindex(predict_inputs.columns.union(cols, sort=False), axis=1, fill_value=0)
@@ -132,13 +134,6 @@ with st.form(key='my_form'):
         st.write('Stroke prediction: %.3f' % prediction)
 
         prediction_proba = rf.predict_proba(predict_inputs)
-        
+
         st.subheader('Prediction Probability')
         st.write(prediction_proba)
-
-    
-    
-
-    
-
-
